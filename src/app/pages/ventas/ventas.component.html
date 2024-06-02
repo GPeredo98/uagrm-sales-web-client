@@ -1,0 +1,74 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 10px 25px;">
+    <a class="navbar-brand" href="#">TiluchiSoft ERP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/ventas">Ventas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/productos">Productos</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#" (click)="cerrarSesion()">Cerrar sesión</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>Gestión de Ventas</h2>
+    <button class="btn btn-primary mb-3" (click)="openModal(content)">Registrar Venta</button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Razón Social</th>
+                <th>NIT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let venta of ventas">
+                <td>{{ venta.cliente }}</td>
+                <td>{{ venta.razon_social }}</td>
+                <td>{{ venta.nit }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Registrar Nueva Venta</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <form #ventaForm="ngForm">
+                <div class="mb-3">
+                    <label for="cliente" class="form-label">Cliente</label>
+                    <input type="text" class="form-control" id="cliente" [(ngModel)]="nuevaVenta.cliente" name="cliente"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="razon_social" class="form-label">Razón Social</label>
+                    <input type="text" class="form-control" id="razon_social" [(ngModel)]="nuevaVenta.razon_social"
+                        name="razon_social" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nit" class="form-label">NIT</label>
+                    <input type="text" class="form-control" id="nit" [(ngModel)]="nuevaVenta.nit" name="nit" required>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancelar</button>
+            <button type="button" class="btn btn-primary"
+                (click)="registrarVenta(nuevaVenta); modal.close('Save click')">Guardar</button>
+        </div>
+    </ng-template>
+</div>
