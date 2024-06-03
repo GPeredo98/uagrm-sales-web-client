@@ -17,4 +17,9 @@ export class ProductosService {
   crearProducto(producto: any) {
     return this.http.post<any>(`${this.API_URL}/productos`, producto);
   }
+
+  eliminarProducto(id: number) {
+    return this.http.delete<any>(`${this.API_URL}/productos/${id}`);
+  }
+
 }

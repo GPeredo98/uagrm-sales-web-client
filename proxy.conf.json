@@ -1,0 +1,8 @@
+{
+    "/api": {
+      "target": "https://api-gateway-91.azure-api.net",
+      "secure": false,
+      "changeOrigin": true
+    }
+  }
+  

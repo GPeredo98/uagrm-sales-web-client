@@ -34,6 +34,7 @@
                 <th>Categoría</th>
                 <th>Disponible</th>
                 <th>Fecha de Creación</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -45,6 +46,9 @@
                 <td>{{ producto.categoria }}</td>
                 <td>{{ producto.disponible ? 'Sí' : 'No' }}</td>
                 <td>{{ producto.fecha_creacion | date }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="eliminarProducto(producto.id)">Eliminar</button>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -68,6 +72,11 @@
                         name="descripcion" required></textarea>
                 </div>
                 <div class="mb-3">
+                    <label for="categoria" class="form-label">Imagen referencial</label>
+                    <input type="text" class="form-control" id="imagen" [(ngModel)]="nuevoProducto.imagen"
+                        name="imagen" required>
+                </div>
+                <div class="mb-3">
                     <label for="precio" class="form-label">Precio</label>
                     <input type="number" class="form-control" id="precio" [(ngModel)]="nuevoProducto.precio"
                         name="precio" required>
@@ -79,8 +88,13 @@
                 </div>
                 <div class="mb-3">
                     <label for="categoria" class="form-label">Categoría</label>
-                    <input type="number" class="form-control" id="categoria" [(ngModel)]="nuevoProducto.categoria"
+                    <select class="form-control" id="categoria" [(ngModel)]="nuevoProducto.categoria"
                         name="categoria" required>
+                        <option [ngValue]="'MODA'">MODA</option>
+                        <option [ngValue]="'TECNOLOGIA'">TECNOLOGIA</option>
+                        <option [ngValue]="'DEPOTE'">DEPORTE</option>
+                        <option [ngValue]="'SALUD'">SALUD</option>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label for="disponible" class="form-label">Disponible</label>

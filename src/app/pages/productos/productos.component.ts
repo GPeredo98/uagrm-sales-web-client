@@ -14,20 +14,21 @@ export class ProductosComponent implements OnInit {
   nuevoProducto: any = {
     nombre: '',
     descripcion: '',
+    imagen: '',
     precio: 0,
     cantidad: 0,
-    categoria: 0,
+    categoria: '',
     disponible: true
   };
 
   constructor(private productosService: ProductosService, private modalService: NgbModal, private router: Router) { }
 
   ngOnInit(): void {
-    this.productosService.obtenerProductos().subscribe(response => {
-      if (response.success) {
-        this.productos = response.data;
-      }
-    });
+    this.obtenerProductos();
+    this.obtenerProductos();
+  }
+
+  obtenerProductos() {
     this.productosService.obtenerProductos().subscribe(response => {
       if (response.success) {
         this.productos = response.data;
@@ -50,8 +51,21 @@ export class ProductosComponent implements OnInit {
     this.productosService.crearProducto(producto).subscribe(response => {
       if (response.success) {
         this.productos.push(response.data);
+        this.obtenerProductos();
       }
     });
+    this.productosService.crearProducto(producto).subscribe(response => {
+      if (response.success) {
+        this.productos.push(response.data);
+        this.obtenerProductos();
+      }
+    });
+  }
+
+  eliminarProducto(id: number) {
+    this.productosService.eliminarProducto(id).subscribe(() => {
+      this.obtenerProductos();
+    })
   }
 
   cerrarSesion() {
