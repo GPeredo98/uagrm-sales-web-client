@@ -15,7 +15,7 @@ export class VentasService {
   }
 
   registrarVenta(venta: any) {
-    return this.http.post<any>(`${this.API_URL}/ventas`, venta);
+    return this.http.post<any>(`${this.API_URL}/ventas/registrar`, venta);
   }
   
 }
