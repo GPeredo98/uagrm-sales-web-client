@@ -25,13 +25,16 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerProductos();
-    this.obtenerProductos();
   }
 
   obtenerProductos() {
     this.productosService.obtenerProductos().subscribe(response => {
       if (response.success) {
         this.productos = response.data;
+      } else {
+        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
+          this.obtenerProductos();
+        }
       }
     });
   }
@@ -52,19 +55,23 @@ export class ProductosComponent implements OnInit {
       if (response.success) {
         this.productos.push(response.data);
         this.obtenerProductos();
-      }
-    });
-    this.productosService.crearProducto(producto).subscribe(response => {
-      if (response.success) {
-        this.productos.push(response.data);
-        this.obtenerProductos();
+      } else {
+        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
+          this.crearProducto(producto);
+        }
       }
     });
   }
 
   eliminarProducto(id: number) {
-    this.productosService.eliminarProducto(id).subscribe(() => {
-      this.obtenerProductos();
+    this.productosService.eliminarProducto(id).subscribe(response => {
+      if (response.success) {
+        this.obtenerProductos();
+      } else {
+        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
+          this.eliminarProducto(id);
+        }
+      }
     })
   }
 

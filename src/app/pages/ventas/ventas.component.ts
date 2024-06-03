@@ -24,9 +24,17 @@ export class VentasComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.obtenerVentas();
+  }
+
+  obtenerVentas(): void {
     this.ventasService.listarVentas().subscribe(response => {
       if (response.success) {
         this.ventas = response.data;
+      } else {
+        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
+          this.obtenerVentas();
+        }
       }
     });
   }
@@ -45,6 +53,10 @@ export class VentasComponent implements OnInit {
     this.ventasService.registrarVenta(venta).subscribe(response => {
       if (response.success) {
         this.ventas.push(response.data);
+      } else {
+        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
+          this.registrarVenta(venta);
+        }
       }
     });
   }
