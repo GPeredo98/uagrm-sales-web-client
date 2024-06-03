@@ -22,4 +22,5 @@ export class ProductosService {
     return this.http.delete<any>(`${this.API_URL}/productos/${id}`);
   }
 
+  
 }
