@@ -17,7 +17,7 @@ export class ProductosComponent implements OnInit {
     imagen: '',
     precio: 0,
     cantidad: 0,
-    categoria: '',
+    categoria: 'MODA',
     disponible: true
   };
 
