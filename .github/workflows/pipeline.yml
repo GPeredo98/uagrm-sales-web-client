@@ -37,6 +37,11 @@ jobs:
       - name: Install angular-cli-ghpages
         run: npm install -g angular-cli-ghpages
 
+      - name: Configure Git
+        run: |
+          git config --global user.email "gperedo.alvaro@gmail.com"
+          git config --global user.name "Gabriel Peredo"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
