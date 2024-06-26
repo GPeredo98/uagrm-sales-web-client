@@ -17,11 +17,15 @@ export class LoginComponent {
   onSubmit() {
     this.loading = true;
     if (this.username && this.password) {
-      this.authService.login(this.username, this.password).subscribe((res: any) => {
-        this.router.navigate(['/productos'])
-      }).add(() => {
+      // this.authService.login(this.username, this.password).subscribe((res: any) => {
+      //   this.router.navigate(['/productos']);
+      // }).add(() => {
+      //   this.loading = false;
+      // })
+      setTimeout(() => {
         this.loading = false;
-      })
+        this.router.navigate(['/app/productos']);
+      }, 1000);
     }
   }
 }

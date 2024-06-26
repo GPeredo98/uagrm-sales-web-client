@@ -60,9 +60,4 @@ export class VentasComponent implements OnInit {
       }
     });
   }
-
-  cerrarSesion() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
-  }
 }

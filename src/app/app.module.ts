@@ -9,13 +9,19 @@ import { ProductosComponent } from './pages/productos/productos.component';
 import { VentasComponent } from './pages/ventas/ventas.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { LayoutComponent } from './pages/layout/layout.component';
+import { ClientesComponent } from './pages/clientes/clientes.component';
+import { EmpleadosComponent } from './pages/empleados/empleados.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ProductosComponent,
-    VentasComponent
+    VentasComponent,
+    LayoutComponent,
+    ClientesComponent,
+    EmpleadosComponent
   ],
   imports: [
     BrowserModule,

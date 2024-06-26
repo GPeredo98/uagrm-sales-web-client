@@ -74,10 +74,4 @@ export class ProductosComponent implements OnInit {
       }
     })
   }
-
-  cerrarSesion() {
-    // Lógica para cerrar sesión, por ejemplo, limpiar tokens y redirigir a la página de login
-    localStorage.removeItem('token'); // O cualquier otra lógica para limpiar la sesión
-    this.router.navigate(['/login']);
-  }
 }
