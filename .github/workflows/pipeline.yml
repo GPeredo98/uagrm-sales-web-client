@@ -1,54 +1,29 @@
-name: Deploy Angular to GitHub Pages
+name: Angular Build and Deploy
 
 on:
   push:
-    branches: ["master"]
-
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: 20
 
-      - name: Install dependencies
-        run: npm install
+      - name: Build Angular app to prod
+        working-directory: github-option-three-app
+        run: npm install && npm run build:prod
 
-      - name: Build project
-        run: npm run build
-
-      - name: Install angular-cli-ghpages
-        run: npm install -g angular-cli-ghpages
-
-      - name: Configure Git
-        run: |
-          git config --global user.email "gperedo.alvaro@gmail.com"
-          git config --global user.name "Gabriel Peredo"
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          path: dist
-
-      - name: Deploy to gh pages
-        run: npx angular-cli-ghpages --dir=dist/ms-web-client --no-silent
-        env:
-          CI: true
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          folder: dist/browser
+          branch: prod  
+          token: ${{ secrets.GH_TOKEN }}
