@@ -20,4 +20,9 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
+  it(`should have as title 'uagrm-sales-web-client'`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('uagrm-sales-web-client');
+  });
 });
