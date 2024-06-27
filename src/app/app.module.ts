@@ -14,6 +14,7 @@ import { ClientesComponent } from './pages/clientes/clientes.component';
 import { EmpleadosComponent } from './pages/empleados/empleados.component';
 import { ToastsContainer } from "./components/toast-container/toast-container.component";
 import { AlmacenesComponent } from './pages/almacenes/almacenes.component';
+import { AlmacenesService } from './services/almacenes.service';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,7 @@ import { AlmacenesComponent } from './pages/almacenes/almacenes.component';
         EmpleadosComponent,
         AlmacenesComponent,
     ],
-    providers: [],
+    providers: [AlmacenesService],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
