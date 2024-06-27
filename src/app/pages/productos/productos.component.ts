@@ -71,7 +71,7 @@ export class ProductosComponent implements OnInit {
     }, error => {
       for (let key in error.error.errors) {
         error.error.errors[key].forEach((message: any) => {
-            this.toastService.show(`${key}: - ${message}`, { classname: 'bg-danger text-light', delay: 15000 });
+            this.toastService.show(`${key}: - ${message}`, { classname: 'bg-danger text-light', delay: 3000 });
         });
       }
     }).add(() => {

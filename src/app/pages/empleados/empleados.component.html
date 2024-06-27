@@ -52,40 +52,46 @@
         </div>
         <div class="modal-body">
             <form #productoForm="ngForm">
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombres</label>
-                    <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevoEmpleado.nombre" name="nombre"
-                        required>
+                <div class="form-group row">
+                    <div class="mb-3 col-6">
+                        <label for="nombre" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevoEmpleado.nombre" name="nombre"
+                            required>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label for="apellido" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="apellido" [(ngModel)]="nuevoEmpleado.apellido"
+                        name="apellido" required>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Apellidos</label>
-                    <textarea class="form-control" id="descripcion" [(ngModel)]="nuevoEmpleado.apellido"
-                        name="descripcion" required></textarea>
+                <div class="form-group row">
+                    <div class="mb-3 col-6">
+                        <label for="categoria" class="form-label">Fecha de nacimiento</label>
+                        <input type="date" class="form-control" id="imagen" [(ngModel)]="nuevoEmpleado.fechaNacimiento"
+                            name="imagen" required>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label for="precio" class="form-label">Fecha de contratación</label>
+                        <input type="date" class="form-control" id="precio" [(ngModel)]="nuevoEmpleado.fechaContratacion"
+                            name="precio" required>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="categoria" class="form-label">Fecha de nacimiento</label>
-                    <input type="text" class="form-control" id="imagen" [(ngModel)]="nuevoEmpleado.fechaNacimiento"
-                        name="imagen" required>
-                </div>
-                <div class="mb-3">
-                    <label for="precio" class="form-label">Fecha de contratación</label>
-                    <input type="number" class="form-control" id="precio" [(ngModel)]="nuevoEmpleado.fechaContratacion"
-                        name="precio" required>
-                </div>
-                <div class="mb-3">
-                    <label for="cargo" class="form-label">Cargo</label>
-                    <select class="form-control" id="cargo" [(ngModel)]="nuevoEmpleado.cargo"
-                        name="cargo" required>
-                        <option [ngValue]="'Supervisor'">Supervisor</option>
-                        <option [ngValue]="'Gerente'">Gerente</option>
-                        <option [ngValue]="'Encargado de ventas'">Encargado de ventas</option>
-                        <option [ngValue]="'Vendedor auxiliar'">Vendedor auxiliar</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="salario" class="form-label">Salario</label>
-                    <input type="number" class="form-control" id="cantidad" [(ngModel)]="nuevoEmpleado.salario"
-                        name="salario" required>
+                <div class="form-group row">
+                    <div class="mb-3 col-6">
+                        <label for="cargo" class="form-label">Cargo</label>
+                        <select class="form-control" id="cargo" [(ngModel)]="nuevoEmpleado.cargo"
+                            name="cargo" required>
+                            <option [ngValue]="'Supervisor'">Supervisor</option>
+                            <option [ngValue]="'Gerente'">Gerente</option>
+                            <option [ngValue]="'Encargado de ventas'">Encargado de ventas</option>
+                            <option [ngValue]="'Vendedor auxiliar'">Vendedor auxiliar</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label for="salario" class="form-label">Salario</label>
+                        <input type="number" class="form-control" id="cantidad" [(ngModel)]="nuevoEmpleado.salario"
+                            name="salario" required>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>
@@ -96,8 +102,13 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancelar</button>
-            <button type="button" class="btn btn-primary"
-                (click)="crearEmpleado(nuevoEmpleado); modal.close('Save click')">Guardar</button>
+            <button type="button" class="btn btn-primary" [disabled]="creando" (click)="crearEmpleado(nuevoEmpleado);">
+                <span *ngIf="!creando">Guardar</span>
+                <span *ngIf="creando">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Registrando...
+                </span>
+            </button>
         </div>
     </ng-template>
 </div>

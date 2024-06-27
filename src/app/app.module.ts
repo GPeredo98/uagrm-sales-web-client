@@ -13,6 +13,7 @@ import { LayoutComponent } from './pages/layout/layout.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
 import { EmpleadosComponent } from './pages/empleados/empleados.component';
 import { ToastsContainer } from "./components/toast-container/toast-container.component";
+import { AlmacenesComponent } from './pages/almacenes/almacenes.component';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { ToastsContainer } from "./components/toast-container/toast-container.co
         LayoutComponent,
         ClientesComponent,
         EmpleadosComponent,
+        AlmacenesComponent,
     ],
     providers: [],
     bootstrap: [AppComponent],

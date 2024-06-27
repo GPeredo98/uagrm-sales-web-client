@@ -12,13 +12,14 @@ import { ToastService } from 'src/app/services/toast.service';
 export class EmpleadosComponent {
   empleados: any[] = [];
   cargandoDatos: boolean = true;
+  creando: boolean = false;
 
   nuevoEmpleado: any = {
     nombre: '',
     apellido: '',
-    fechaNacimiento: '',
+    fechaNacimiento: 0,
     fechaContratacion: 0,
-    cargo: 0,
+    cargo: '',
     salario: 0,
     direccion: ''
   };
@@ -41,6 +42,15 @@ export class EmpleadosComponent {
   }
 
   openModal(content: any) {
+    this.nuevoEmpleado = {
+      nombre: '',
+      apellido: '',
+      fechaNacimiento: 0,
+      fechaContratacion: 0,
+      cargo: '',
+      salario: 0,
+      direccion: ''
+    };
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       if (result === 'Save click') {
         // Aquí puedes llamar a un método para guardar el nuevo producto
@@ -50,17 +60,22 @@ export class EmpleadosComponent {
     });
   }
 
-  // Método para crear un nuevo producto
   crearEmpleado(producto: any) {
+    this.creando = true;
     this.empleadoService.crearEmpleado(producto).subscribe(response => {
-      if (response.success) {
-        this.empleados.push(response.data);
-        this.obtenerEmpleados();
-      } else {
-        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
-          this.crearEmpleado(producto);
-        }
+      this.obtenerEmpleados();
+      setTimeout(() => {
+        this.modalService.dismissAll();
+        this.toastService.show('Empleado registrado', { classname: 'bg-success text-light', delay: 3000 });
+      }, 1000);
+    }, error => {
+      for (let key in error.error.errors) {
+        error.error.errors[key].forEach((message: any) => {
+            this.toastService.show(`${key}: - ${message}`, { classname: 'bg-danger text-light', delay: 3000 });
+        });
       }
+    }).add(() => {
+      this.creando = false;
     });
   }
 

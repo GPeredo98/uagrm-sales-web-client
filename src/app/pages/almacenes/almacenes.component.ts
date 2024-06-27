@@ -1,41 +1,40 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ClientesService } from 'src/app/services/clientes.service';
+import { AlmacenesService } from 'src/app/services/almacenes.service';
 import { ToastService } from 'src/app/services/toast.service';
 
+
 @Component({
-  selector: 'app-clientes',
-  templateUrl: './clientes.component.html',
-  styleUrls: ['./clientes.component.scss']
+  selector: 'app-almacenes',
+  templateUrl: './almacenes.component.html',
+  styleUrls: ['./almacenes.component.scss']
 })
-export class ClientesComponent {
-  clientes: any[] = [];
+export class AlmacenesComponent {
+  almacenes: any[] = [];
   cargandoDatos: boolean = true;
   creando: boolean = false;
 
-  nuevoCliente: any = {};
+  nuevoAlmacen: any = {};
 
   constructor(
-    private clientesService: ClientesService,
+    private almacenesService: AlmacenesService,
     private modalService: NgbModal,
     public toastService: ToastService,
-    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.obtenerClientes();
+    this.obtenerAlmacenes();
   }
 
-  obtenerClientes() {
-    this.clientesService.obtenerClientes().subscribe(response => {
-      this.clientes = response;
+  obtenerAlmacenes() {
+    this.almacenesService.obtenerAlmacenes().subscribe(response => {
+      this.almacenes = response;
       this.cargandoDatos = false;
     });
   }
 
   openModal(content: any) {
-    this.nuevoCliente = {};
+    this.nuevoAlmacen = {};
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       if (result === 'Save click') {
         // Aquí puedes llamar a un método para guardar el nuevo producto
@@ -45,13 +44,13 @@ export class ClientesComponent {
     });
   }
 
-  crearCliente(cliente: any) {
+  crearAlmacen(cliente: any) {
     this.creando = true;
-    this.clientesService.crearCliente(cliente).subscribe(response => {
-      this.obtenerClientes();
+    this.almacenesService.crearAlmacen(cliente).subscribe(response => {
+      this.obtenerAlmacenes();
       setTimeout(() => {
         this.modalService.dismissAll();
-        this.toastService.show('Cliente registrado', { classname: 'bg-success text-light', delay: 3000 });
+        this.toastService.show('Almacén registrado', { classname: 'bg-success text-light', delay: 3000 });
       }, 1000);
     }, error => {
       for (let key in error.error.errors) {
@@ -64,12 +63,12 @@ export class ClientesComponent {
     });
   }
 
-  eliminarCliente(cliente: any) {
+  eliminarAlmacen(cliente: any) {
     cliente.eliminando = true;
-    this.clientesService.eliminarCliente(cliente.id).subscribe(response => {
-      this.obtenerClientes();
+    this.almacenesService.eliminarAlmacen(cliente.id).subscribe(response => {
+      this.obtenerAlmacenes();
       setTimeout(() => {
-        this.toastService.show('Cliente eliminado', { classname: 'bg-success text-light', delay: 3000 });
+        this.toastService.show('Almacén eliminado', { classname: 'bg-success text-light', delay: 3000 });
       }, 1000);
     })
   }
