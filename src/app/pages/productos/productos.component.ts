@@ -13,7 +13,6 @@ export class ProductosComponent implements OnInit {
   productos: any[] = [];
   cargandoDatos: boolean = true;
   creando: boolean = false;
-  eliminando: boolean = false;
 
   nuevoProducto: any = {
     nombre: '',
@@ -28,7 +27,7 @@ export class ProductosComponent implements OnInit {
   constructor(
     private productosService: ProductosService,
     private modalService: NgbModal,
-    public toastService: ToastService,
+    private toastService: ToastService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -43,6 +42,15 @@ export class ProductosComponent implements OnInit {
   }
 
   openModal(content: any) {
+    this.nuevoProducto = {
+      nombre: '',
+      descripcion: '',
+      imagen: '',
+      precio: 0,
+      cantidad: 0,
+      categoria: 'MODA',
+      disponible: true
+    };
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       if (result === 'Save click') {
         // Aquí puedes llamar a un método para guardar el nuevo producto
@@ -57,10 +65,17 @@ export class ProductosComponent implements OnInit {
     this.productosService.crearProducto(producto).subscribe(response => {
       this.obtenerProductos();
       setTimeout(() => {
-        this.creando = false;
         this.modalService.dismissAll();
         this.toastService.show('Producto registrado', { classname: 'bg-success text-light', delay: 3000 });
       }, 1000);
+    }, error => {
+      for (let key in error.error.errors) {
+        error.error.errors[key].forEach((message: any) => {
+            this.toastService.show(`${key}: - ${message}`, { classname: 'bg-danger text-light', delay: 15000 });
+        });
+      }
+    }).add(() => {
+      this.creando = false;
     });
   }
 

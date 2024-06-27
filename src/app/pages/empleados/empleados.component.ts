@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmpleadosService } from 'src/app/services/empleados.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-empleados',
@@ -10,6 +11,7 @@ import { EmpleadosService } from 'src/app/services/empleados.service';
 })
 export class EmpleadosComponent {
   empleados: any[] = [];
+  cargandoDatos: boolean = true;
 
   nuevoEmpleado: any = {
     nombre: '',
@@ -21,7 +23,11 @@ export class EmpleadosComponent {
     direccion: ''
   };
 
-  constructor(private empleadoService: EmpleadosService, private modalService: NgbModal, private router: Router) { }
+  constructor(
+    private empleadoService: EmpleadosService,
+    private modalService: NgbModal,
+    private toastService: ToastService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.obtenerEmpleados();
@@ -29,13 +35,8 @@ export class EmpleadosComponent {
 
   obtenerEmpleados() {
     this.empleadoService.obtenerEmpleados().subscribe(response => {
-      if (response.success) {
-        this.empleados = response.data;
-      } else {
-        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
-          this.obtenerEmpleados();
-        }
-      }
+      this.empleados = response;
+      this.cargandoDatos = false;
     });
   }
 
@@ -63,15 +64,13 @@ export class EmpleadosComponent {
     });
   }
 
-  eliminarProducto(id: number) {
-    this.empleadoService.eliminarEmpleado(id).subscribe(response => {
-      if (response.success) {
-        this.obtenerEmpleados();
-      } else {
-        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
-          this.eliminarProducto(id);
-        }
-      }
+  eliminarEmpleado(empleado: any) {
+    empleado.eliminando = true;
+    this.empleadoService.eliminarEmpleado(empleado.id).subscribe(response => {
+      this.obtenerEmpleados();
+      setTimeout(() => {
+        this.toastService.show('Empleado eliminado', { classname: 'bg-success text-light', delay: 3000 });
+      }, 1000);
     })
   }
 }

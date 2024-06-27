@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClientesService } from 'src/app/services/clientes.service';
 import { ProductosService } from 'src/app/services/productos.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-clientes',
@@ -11,18 +12,17 @@ import { ProductosService } from 'src/app/services/productos.service';
 })
 export class ClientesComponent {
   clientes: any[] = [];
+  cargandoDatos: boolean = true;
+  creando: boolean = false;
 
-  nuevoCliente: any = {
-    nombre: '',
-    apellido: '',
-    direccion: '',
-    ciudad: 0,
-    codigoPostal: 0,
-    pais: 'MODA',
-    telefono: true
-  };
+  nuevoCliente: any = {};
 
-  constructor(private clientesService: ClientesService, private modalService: NgbModal, private router: Router) { }
+  constructor(
+    private clientesService: ClientesService,
+    private modalService: NgbModal,
+    public toastService: ToastService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.obtenerClientes();
@@ -30,17 +30,13 @@ export class ClientesComponent {
 
   obtenerClientes() {
     this.clientesService.obtenerClientes().subscribe(response => {
-      if (response.success) {
-        this.clientes = response.data;
-      } else {
-        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
-          this.obtenerClientes();
-        }
-      }
+      this.clientes = response;
+      this.cargandoDatos = false;
     });
   }
 
   openModal(content: any) {
+    this.nuevoCliente = {};
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       if (result === 'Save click') {
         // Aquí puedes llamar a un método para guardar el nuevo producto
@@ -51,27 +47,27 @@ export class ClientesComponent {
   }
 
   crearCliente(cliente: any) {
+    this.creando = true;
     this.clientesService.crearCliente(cliente).subscribe(response => {
-      if (response.success) {
-        this.clientes.push(response.data);
-        this.obtenerClientes();
-      } else {
-        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
-          this.crearCliente(cliente);
-        }
+      this.obtenerClientes();
+    }, error => {
+      for (let key in error.error.errors) {
+        error.error.errors[key].forEach((message: any) => {
+            this.toastService.show(`${key}: - ${message}`, { classname: 'bg-danger text-light', delay: 15000 });
+        });
       }
+    }).add(() => {
+      this.creando = false;
     });
   }
 
-  eliminarCliente(id: number) {
-    this.clientesService.eliminarCliente(id).subscribe(response => {
-      if (response.success) {
-        this.obtenerClientes();
-      } else {
-        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
-          this.eliminarCliente(id);
-        }
-      }
+  eliminarCliente(cliente: any) {
+    cliente.eliminando = true;
+    this.clientesService.eliminarCliente(cliente.id).subscribe(response => {
+      this.obtenerClientes();
+      setTimeout(() => {
+        this.toastService.show('Cliente eliminado', { classname: 'bg-success text-light', delay: 3000 });
+      }, 1000);
     })
   }
 }

@@ -1,6 +1,11 @@
-<div class="container mt-4">
-    <h2 class="mt-4">Gestión de clientes</h2>
-    <button class="btn btn-primary mb-3" (click)="openModal(content)">Registrar cliente</button>
+<div class="container mt-4 card">
+    <div>
+        <h4 class="mt-2" style="text-align: center;">Gestión de Clientes</h4>
+        <button class="btn btn-primary" (click)="openModal(content)">
+            <i class="bi bi-plus-circle"></i> <!-- Icono de Bootstrap Icons -->
+            Nuevo
+        </button>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -21,14 +26,23 @@
                 <td>{{ cliente.direccion }}</td>
                 <td>{{ cliente.ciudad }}</td>
                 <td>{{ cliente.codigoPostal }}</td>
-                <td>{{ cliente.pais ? 'Sí' : 'No' }}</td>
-                <td>{{ cliente.telefono | date }}</td>
+                <td>{{ cliente.pais }}</td>
+                <td>{{ cliente.telefono }}</td>
                 <td>
-                    <button type="button" class="btn btn-danger" (click)="eliminarCliente(cliente.id)">Eliminar</button>
+                    <button type="button" class="btn btn-danger" (click)="eliminarCliente(cliente)"
+                        [disabled]="cliente.eliminando">
+                        <span *ngIf="!cliente.eliminando"><i class="bi bi-trash"></i></span>
+                        <span *ngIf="cliente.eliminando">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        </span>
+                    </button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <div  *ngIf="cargandoDatos" style="width: 100%;text-align: center;margin: 20px;">
+        <span class="spinner-border spinner-border-md" style="color: gray;" role="status" aria-hidden="true"></span>
+    </div>
 
     <!-- Modal -->
     <ng-template #content let-modal>
@@ -38,57 +52,68 @@
         </div>
         <div class="modal-body">
             <form #productoForm="ngForm">
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombres</label>
-                    <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevoCliente.nombre" name="nombre"
-                        required>
-                </div>
-                <div class="mb-3">
-                    <label for="apellido" class="form-label">Apellidos</label>
-                    <input type="text" class="form-control" id="apellido" [(ngModel)]="nuevoCliente.apellido"
-                    name="apellido" required>
+                <div class="form-group row">
+                    <div class="mb-3 col-6">
+                        <label for="nombre" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevoCliente.nombre" name="nombre"
+                            required>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label for="apellido" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="apellido" [(ngModel)]="nuevoCliente.apellido"
+                        name="apellido" required>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>
                     <textarea class="form-control" id="direccion" [(ngModel)]="nuevoCliente.direccion"
                         name="direccion" required></textarea>
                 </div>
-                <div class="mb-3">
-                    <label for="ciudad" class="form-label">Ciudad</label>
-                    <select class="form-control" id="ciudad" [(ngModel)]="nuevoCliente.ciudad"
-                        name="ciudad" required>
-                        <option [ngValue]="'Santa Cruz'">Bolivia</option>
-                        <option [ngValue]="'Santiago'">Chile</option>
-                        <option [ngValue]="'Quito'">Ecuador</option>
-                        <option [ngValue]="'Buenos Aires'">Argentina</option>
-                    </select>
+                <div class="form-group row">
+                    <div class="mb-3 col-6">
+                        <label for="ciudad" class="form-label">Ciudad</label>
+                        <select class="form-control" id="ciudad" [(ngModel)]="nuevoCliente.ciudad"
+                            name="ciudad" required>
+                            <option [ngValue]="'Santa Cruz'">Santa Cruz</option>
+                            <option [ngValue]="'Santiago'">Santiago</option>
+                            <option [ngValue]="'Quito'">Quito</option>
+                            <option [ngValue]="'Buenos Aires'">Buenos Aires</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label for="pais" class="form-label">País</label>
+                        <select class="form-control" id="pais" [(ngModel)]="nuevoCliente.pais"
+                            name="pais" required>
+                            <option [ngValue]="'Bolivia'">Bolivia</option>
+                            <option [ngValue]="'Chile'">Chile</option>
+                            <option [ngValue]="'Ecuador'">Ecuador</option>
+                            <option [ngValue]="'Argentina'">Argentina</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="codigoPostal" class="form-label">Código postal</label>
-                    <input type="number" class="form-control" id="codigoPostal" [(ngModel)]="nuevoCliente.codigoPostal"
-                        name="cantidad" required>
-                </div>
-                <div class="mb-3">
-                    <label for="pais" class="form-label">País</label>
-                    <select class="form-control" id="pais" [(ngModel)]="nuevoCliente.pais"
-                        name="pais" required>
-                        <option [ngValue]="'Bolivia'">Bolivia</option>
-                        <option [ngValue]="'Chile'">Chile</option>
-                        <option [ngValue]="'Ecuador'">Ecuador</option>
-                        <option [ngValue]="'Argentina'">Argentina</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="telefono" class="form-label">Teléfono</label>
-                    <input type="number" class="form-control" id="telefono" [(ngModel)]="nuevoCliente.telefono"
-                        name="telefono" required>
+                <div class="form-group row">
+                    <div class="mb-3 col-6">
+                        <label for="codigoPostal" class="form-label">Código postal</label>
+                        <input type="text" class="form-control" id="codigoPostal" [(ngModel)]="nuevoCliente.codigoPostal"
+                            name="cantidad" required>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="telefono" [(ngModel)]="nuevoCliente.telefono"
+                            name="telefono" required>
+                    </div>
                 </div>
             </form>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancelar</button>
-            <button type="button" class="btn btn-primary"
-                (click)="crearCliente(nuevoCliente); modal.close('Save click')">Guardar</button>
+            <button type="button" class="btn btn-primary" [disabled]="creando" (click)="crearCliente(nuevoCliente);">
+                <span *ngIf="!creando">Guardar</span>
+                <span *ngIf="creando">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Registrando...
+                </span>
+            </button>
         </div>
     </ng-template>
 </div>

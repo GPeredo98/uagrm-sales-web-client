@@ -1,6 +1,11 @@
-<div class="container mt-4">
-    <h2 class="mt-4">Gestión de Empleados</h2>
-    <button class="btn btn-primary mb-3" (click)="openModal(content)">Registrar empleado</button>
+<div class="container mt-4 card">
+    <div>
+        <h4 class="mt-2" style="text-align: center;">Gestión de Empleados</h4>
+        <button class="btn btn-primary" (click)="openModal(content)">
+            <i class="bi bi-plus-circle"></i>
+            Nuevo
+        </button>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -21,14 +26,23 @@
                 <td>{{ empleado.fechaNacimiento }}</td>
                 <td>{{ empleado.fechaContratacion }}</td>
                 <td>{{ empleado.cargo }}</td>
-                <td>{{ empleado.salario ? 'Sí' : 'No' }}</td>
-                <td>{{ empleado.direccion | date }}</td>
+                <td>Bs. {{ empleado.salario }}</td>
+                <td>{{ empleado.direccion }}</td>
                 <td>
-                    <button type="button" class="btn btn-danger" (click)="eliminarProducto(empleado.id)">Eliminar</button>
+                    <button type="button" class="btn btn-danger" (click)="eliminarEmpleado(empleado)"
+                        [disabled]="empleado.eliminando">
+                        <span *ngIf="!empleado.eliminando"><i class="bi bi-trash"></i></span>
+                        <span *ngIf="empleado.eliminando">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        </span>
+                    </button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <div  *ngIf="cargandoDatos" style="width: 100%;text-align: center;margin: 20px;">
+        <span class="spinner-border spinner-border-md" style="color: gray;" role="status" aria-hidden="true"></span>
+    </div>
 
     <!-- Modal -->
     <ng-template #content let-modal>
