@@ -1,11 +1,11 @@
 {
-  "name": "ms-web-client",
+  "name": "uagrm-sales-web-client",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng build --configuration=production --base-href=/ms-web-client/",
+    "build:prod": "ng build --configuration=production --base-href=/uagrm-sales-web-client/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ms-web-client": {
+    "uagrm-sales-web-client": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ms-web-client:build:production"
+              "browserTarget": "uagrm-sales-web-client:build:production"
             },
             "development": {
-              "browserTarget": "ms-web-client:build:development"
+              "browserTarget": "uagrm-sales-web-client:build:development"
             }
           },
           "options": {
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ms-web-client:build"
+            "browserTarget": "uagrm-sales-web-client:build"
           }
         },
         "test": {

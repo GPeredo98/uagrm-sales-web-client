@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'ms-web-client'`, () => {
+  it(`should have as title 'uagrm-sales-web-client'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('ms-web-client');
+    expect(app.title).toEqual('uagrm-sales-web-client');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('ms-web-client app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('uagrm-sales-web-client app is running!');
   });
 });
