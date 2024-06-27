@@ -1,6 +1,6 @@
 {
     "/api": {
-      "target": "https://api-gateway-91.azure-api.net",
+      "target": "https://tiluchiapp.uc.r.appspot.com",
       "secure": false,
       "changeOrigin": true
     }
