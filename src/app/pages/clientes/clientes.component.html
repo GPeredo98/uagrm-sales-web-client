@@ -1,1 +1,94 @@
-<p>clientes works!</p>
+<div class="container mt-4">
+    <h2 class="mt-4">Gestión de clientes</h2>
+    <button class="btn btn-primary mb-3" (click)="openModal(content)">Registrar cliente</button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Dirección</th>
+                <th>Ciudad</th>
+                <th>Código postal</th>
+                <th>País</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cliente of clientes">
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.apellido }}</td>
+                <td>{{ cliente.direccion }}</td>
+                <td>{{ cliente.ciudad }}</td>
+                <td>{{ cliente.codigoPostal }}</td>
+                <td>{{ cliente.pais ? 'Sí' : 'No' }}</td>
+                <td>{{ cliente.telefono | date }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="eliminarCliente(cliente.id)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Registrar cliente</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <form #productoForm="ngForm">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombres</label>
+                    <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevoCliente.nombre" name="nombre"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" id="apellido" [(ngModel)]="nuevoCliente.apellido"
+                    name="apellido" required>
+                </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <textarea class="form-control" id="direccion" [(ngModel)]="nuevoCliente.direccion"
+                        name="direccion" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="ciudad" class="form-label">Ciudad</label>
+                    <select class="form-control" id="ciudad" [(ngModel)]="nuevoCliente.ciudad"
+                        name="ciudad" required>
+                        <option [ngValue]="'Santa Cruz'">Bolivia</option>
+                        <option [ngValue]="'Santiago'">Chile</option>
+                        <option [ngValue]="'Quito'">Ecuador</option>
+                        <option [ngValue]="'Buenos Aires'">Argentina</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="codigoPostal" class="form-label">Código postal</label>
+                    <input type="number" class="form-control" id="codigoPostal" [(ngModel)]="nuevoCliente.codigoPostal"
+                        name="cantidad" required>
+                </div>
+                <div class="mb-3">
+                    <label for="pais" class="form-label">País</label>
+                    <select class="form-control" id="pais" [(ngModel)]="nuevoCliente.pais"
+                        name="pais" required>
+                        <option [ngValue]="'Bolivia'">Bolivia</option>
+                        <option [ngValue]="'Chile'">Chile</option>
+                        <option [ngValue]="'Ecuador'">Ecuador</option>
+                        <option [ngValue]="'Argentina'">Argentina</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="number" class="form-control" id="telefono" [(ngModel)]="nuevoCliente.telefono"
+                        name="telefono" required>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancelar</button>
+            <button type="button" class="btn btn-primary"
+                (click)="crearCliente(nuevoCliente); modal.close('Save click')">Guardar</button>
+        </div>
+    </ng-template>
+</div>

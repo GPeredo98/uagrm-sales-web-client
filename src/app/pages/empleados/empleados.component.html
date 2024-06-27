@@ -1,1 +1,89 @@
-<p>empleados works!</p>
+<div class="container mt-4">
+    <h2 class="mt-4">Gestión de Empleados</h2>
+    <button class="btn btn-primary mb-3" (click)="openModal(content)">Registrar empleado</button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Fecha de nacimiento</th>
+                <th>Fecha de contratación</th>
+                <th>Cargo</th>
+                <th>Salario</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let empleado of empleados">
+                <td>{{ empleado.nombre }}</td>
+                <td>{{ empleado.apellido }}</td>
+                <td>{{ empleado.fechaNacimiento }}</td>
+                <td>{{ empleado.fechaContratacion }}</td>
+                <td>{{ empleado.cargo }}</td>
+                <td>{{ empleado.salario ? 'Sí' : 'No' }}</td>
+                <td>{{ empleado.direccion | date }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="eliminarProducto(empleado.id)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Registrar empleado</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <form #productoForm="ngForm">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombres</label>
+                    <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevoEmpleado.nombre" name="nombre"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Apellidos</label>
+                    <textarea class="form-control" id="descripcion" [(ngModel)]="nuevoEmpleado.apellido"
+                        name="descripcion" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="categoria" class="form-label">Fecha de nacimiento</label>
+                    <input type="text" class="form-control" id="imagen" [(ngModel)]="nuevoEmpleado.fechaNacimiento"
+                        name="imagen" required>
+                </div>
+                <div class="mb-3">
+                    <label for="precio" class="form-label">Fecha de contratación</label>
+                    <input type="number" class="form-control" id="precio" [(ngModel)]="nuevoEmpleado.fechaContratacion"
+                        name="precio" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cargo" class="form-label">Cargo</label>
+                    <select class="form-control" id="cargo" [(ngModel)]="nuevoEmpleado.cargo"
+                        name="cargo" required>
+                        <option [ngValue]="'Supervisor'">Supervisor</option>
+                        <option [ngValue]="'Gerente'">Gerente</option>
+                        <option [ngValue]="'Encargado de ventas'">Encargado de ventas</option>
+                        <option [ngValue]="'Vendedor auxiliar'">Vendedor auxiliar</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="salario" class="form-label">Salario</label>
+                    <input type="number" class="form-control" id="cantidad" [(ngModel)]="nuevoEmpleado.salario"
+                        name="salario" required>
+                </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <textarea class="form-control" id="direccion" [(ngModel)]="nuevoEmpleado.direccion"
+                        name="direccion" required></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancelar</button>
+            <button type="button" class="btn btn-primary"
+                (click)="crearEmpleado(nuevoEmpleado); modal.close('Save click')">Guardar</button>
+        </div>
+    </ng-template>
+</div>
