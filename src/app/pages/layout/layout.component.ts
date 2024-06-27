@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-layout',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 export class LayoutComponent {
 
   public pagina: string;
+  public readonly APP_VERSION: string = environment.APP_VERSION; 
 
   public readonly PRODUCTOS: string = 'productos';
   public readonly CLIENTES: string = 'clientes';
