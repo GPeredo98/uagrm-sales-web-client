@@ -34,14 +34,6 @@ jobs:
       - name: Build for production
         run: npm run build:prod
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: dist/uagrm-sales-web-client
-          branch: prod  
-          clean: true
-          token: ${{ secrets.GH_TOKEN }}
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
