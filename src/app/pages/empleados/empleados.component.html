@@ -23,8 +23,8 @@
             <tr *ngFor="let empleado of empleados">
                 <td>{{ empleado.nombre }}</td>
                 <td>{{ empleado.apellido }}</td>
-                <td>{{ empleado.fechaNacimiento }}</td>
-                <td>{{ empleado.fechaContratacion }}</td>
+                <td>{{ empleado.fechaNacimiento | date }}</td>
+                <td>{{ empleado.fechaContratacion | date }}</td>
                 <td>{{ empleado.cargo }}</td>
                 <td>Bs. {{ empleado.salario }}</td>
                 <td>{{ empleado.direccion }}</td>
