@@ -8,7 +8,16 @@ import { Router } from '@angular/router';
 })
 export class LayoutComponent {
 
-  constructor(private router: Router) {}
+  public pagina: string;
+
+  public readonly PRODUCTOS: string = 'productos';
+  public readonly CLIENTES: string = 'clientes';
+  public readonly EMPLEADOS: string = 'empleados';
+  public readonly ALMACENES: string = 'almacenes';
+
+  constructor(private router: Router) {
+    this.pagina = this.PRODUCTOS;
+  }
 
   cerrarSesion() {
     localStorage.removeItem('token');

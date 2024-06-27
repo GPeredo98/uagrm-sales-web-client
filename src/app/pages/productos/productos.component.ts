@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductosService } from 'src/app/services/productos.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-productos',
@@ -10,6 +11,9 @@ import { ProductosService } from 'src/app/services/productos.service';
 })
 export class ProductosComponent implements OnInit {
   productos: any[] = [];
+  cargandoDatos: boolean = true;
+  creando: boolean = false;
+  eliminando: boolean = false;
 
   nuevoProducto: any = {
     nombre: '',
@@ -21,7 +25,11 @@ export class ProductosComponent implements OnInit {
     disponible: true
   };
 
-  constructor(private productosService: ProductosService, private modalService: NgbModal, private router: Router) { }
+  constructor(
+    private productosService: ProductosService,
+    private modalService: NgbModal,
+    public toastService: ToastService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.obtenerProductos();
@@ -29,13 +37,8 @@ export class ProductosComponent implements OnInit {
 
   obtenerProductos() {
     this.productosService.obtenerProductos().subscribe(response => {
-      if (response.success) {
-        this.productos = response.data;
-      } else {
-        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
-          this.obtenerProductos();
-        }
-      }
+      this.cargandoDatos = false;
+      this.productos = response;
     });
   }
 
@@ -49,29 +52,25 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  // Método para crear un nuevo producto
   crearProducto(producto: any) {
+    this.creando = true;
     this.productosService.crearProducto(producto).subscribe(response => {
-      if (response.success) {
-        this.productos.push(response.data);
-        this.obtenerProductos();
-      } else {
-        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
-          this.crearProducto(producto);
-        }
-      }
+      this.obtenerProductos();
+      setTimeout(() => {
+        this.creando = false;
+        this.modalService.dismissAll();
+        this.toastService.show('Producto registrado', { classname: 'bg-success text-light', delay: 3000 });
+      }, 1000);
     });
   }
 
-  eliminarProducto(id: number) {
-    this.productosService.eliminarProducto(id).subscribe(response => {
-      if (response.success) {
-        this.obtenerProductos();
-      } else {
-        if (response.data.includes("Lost connection") || response.data.includes("server has gone away")) {
-          this.eliminarProducto(id);
-        }
-      }
+  eliminarProducto(producto: any) {
+    producto.eliminando = true;
+    this.productosService.eliminarProducto(producto.id).subscribe(response => {
+      this.obtenerProductos();
+      setTimeout(() => {
+        this.toastService.show('Producto eliminado', { classname: 'bg-success text-light', delay: 3000 });
+      }, 1000);
     })
   }
 }

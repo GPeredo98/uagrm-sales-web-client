@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 10px 25px;">
-    <a class="navbar-brand" href="#">TiluchiSoft ERP</a>
+    <img src="assets/logo-tiluchi.png" alt="" width="40">
+    <b class="navbar-brand ms-2">TiluchiSoft ERP</b>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -10,17 +11,17 @@
                 <a class="nav-link" routerLink="/app/ventas">Ventas</a>
             </li> -->
             <li class="nav-item">
-                <a class="nav-link" routerLink="/app/productos">Productos</a>
+                <a class="nav-link" routerLink="/app/productos" (click)="pagina=PRODUCTOS">Productos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/app/clientes">Clientes</a>
+                <a class="nav-link" routerLink="/app/clientes" (click)="pagina=CLIENTES">Clientes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/app/empleados">Empleados</a>
+                <a class="nav-link" routerLink="/app/empleados" (click)="pagina=EMPLEADOS">Empleados</a>
             </li>
-            <!-- <li class="nav-item">
-                <a class="nav-link" routerLink="/app/almacenes">Almacenes</a>
-            </li> -->
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/app/almacenes" (click)="pagina=ALMACENES">Almacenes</a>
+            </li>
         </ul>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
@@ -29,4 +30,24 @@
         </ul>
     </div>
 </nav>
-<router-outlet></router-outlet>
+<ng-container [ngSwitch]="pagina">
+    <div *ngSwitchCase="PRODUCTOS">
+      <app-productos></app-productos>
+    </div>
+    <div *ngSwitchCase="CLIENTES">
+        <app-clientes></app-clientes>
+    </div>
+    <div *ngSwitchCase="EMPLEADOS">
+        <app-empleados></app-empleados>
+    </div>
+    <div *ngSwitchCase="ALMACENES">
+      <p>Vista de Lista</p>
+      <!-- Tu contenido para la vista de lista -->
+    </div>
+    <div *ngSwitchDefault>
+      <p>Vista Predeterminada</p>
+      <!-- Tu contenido para la vista predeterminada -->
+    </div>
+</ng-container>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

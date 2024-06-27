@@ -10,34 +10,7 @@ import { EmpleadosComponent } from './pages/empleados/empleados.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'app',
-    component: LayoutComponent,
-    children: [
-      {
-        path: 'productos',
-        component: ProductosComponent
-      },
-      {
-        path: 'ventas',
-        component: VentasComponent
-      },
-      {
-        path: 'clientes',
-        component: ClientesComponent
-      },
-      {
-        path: 'empleados',
-        component: EmpleadosComponent
-      }
-    ]
+    component: LayoutComponent
   }
 ];
 

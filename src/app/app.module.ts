@@ -12,25 +12,27 @@ import { HttpClientModule } from '@angular/common/http';
 import { LayoutComponent } from './pages/layout/layout.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
 import { EmpleadosComponent } from './pages/empleados/empleados.component';
+import { ToastsContainer } from "./components/toast-container/toast-container.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    ProductosComponent,
-    VentasComponent,
-    LayoutComponent,
-    ClientesComponent,
-    EmpleadosComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    NgbModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        LoginComponent,
+        ProductosComponent,
+        VentasComponent,
+        LayoutComponent,
+        ClientesComponent,
+        EmpleadosComponent,
+    ],
+    providers: [],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        NgbModule,
+        ToastsContainer
+    ]
 })
 export class AppModule { }
