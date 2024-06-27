@@ -28,4 +28,5 @@ jobs:
         with:
           folder: dist/uagrm-sales-web-client
           branch: prod  
+          clean: true
           token: ${{ secrets.GH_TOKEN }}
