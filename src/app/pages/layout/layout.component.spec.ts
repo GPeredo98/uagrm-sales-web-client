@@ -31,6 +31,6 @@ describe('LayoutComponent', () => {
     const fixture = TestBed.createComponent(LayoutComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('#header-title')?.textContent).toContain('TiluchiSofh');
+    expect(compiled.querySelector('#header-title')?.textContent).toContain('TiluchiSoft ERP');
   });
 });
